@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 
-import { subscribe } from '../utils/eventBus';
+import QuantityContext from '../utils/QuantityContext';
+
+const QuantityContextConsumer = QuantityContext.Consumer;
 
 class DisplayComponent extends Component {
   state = {
     quantity: 0
   }
-  updateQuantity = (quantity) => {
-    this.setState({ quantity });
-  }
-  componentDidMount() {
-    subscribe('state/InputComponent:updateQuantity', ({ quantity }) => {
-      this.updateQuantity(quantity);
-    })
-  }
   render() {
     return (
       <div>
         <br />
-        Hey did you know, we have {this.state.quantity} quantity of this.
+        <QuantityContextConsumer>
+          {quantity => {
+            return <p>Hey did you know, we have {quantity} quantity of this.</p>
+          }}
+        </QuantityContextConsumer>
       </div>
     )
   }
